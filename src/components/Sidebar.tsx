@@ -13,7 +13,7 @@ const navItems = [
 
 export const Sidebar = () => {
   return (
-    <aside className="w-64 h-screen flex-shrink-0 bg-sidebar-background text-sidebar-foreground flex flex-col border-r border-sidebar-border sticky top-0">
+    <aside className="w-64 h-screen flex-shrink-0 overflow-y-auto bg-sidebar text-sidebar-foreground flex flex-col border-r border-sidebar-border sticky top-0">
       <div className="p-6 flex items-center gap-3 border-b border-sidebar-border">
         <img src={logo} alt="Helpdesk Logo" className="w-10 h-10" />
         <div>

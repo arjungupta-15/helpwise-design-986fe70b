@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Ticket, CheckCircle2, Clock, TrendingUp, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
+import { Link } from "react-router-dom";
 const stats = [
   {
     title: "Total Tickets",
@@ -126,9 +126,9 @@ export default function Dashboard() {
       <Card className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold">Recent Tickets</h2>
-          <a href="/my-tickets" className="text-sm text-primary hover:underline font-medium">
+          <Link to="/my-tickets" className="text-sm text-primary hover:underline font-medium">
             View all
-          </a>
+          </Link>
         </div>
 
         <div className="space-y-4">
