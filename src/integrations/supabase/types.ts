@@ -14,16 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      tickets: {
+        Row: {
+          ai_suggested_category:
+            | Database["public"]["Enums"]["ticket_category"]
+            | null
+          ai_suggested_priority:
+            | Database["public"]["Enums"]["ticket_priority"]
+            | null
+          assigned_team: string | null
+          category: Database["public"]["Enums"]["ticket_category"]
+          created_at: string | null
+          description: string
+          id: string
+          priority: Database["public"]["Enums"]["ticket_priority"]
+          status: Database["public"]["Enums"]["ticket_status"]
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_suggested_category?:
+            | Database["public"]["Enums"]["ticket_category"]
+            | null
+          ai_suggested_priority?:
+            | Database["public"]["Enums"]["ticket_priority"]
+            | null
+          assigned_team?: string | null
+          category: Database["public"]["Enums"]["ticket_category"]
+          created_at?: string | null
+          description: string
+          id?: string
+          priority: Database["public"]["Enums"]["ticket_priority"]
+          status?: Database["public"]["Enums"]["ticket_status"]
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_suggested_category?:
+            | Database["public"]["Enums"]["ticket_category"]
+            | null
+          ai_suggested_priority?:
+            | Database["public"]["Enums"]["ticket_priority"]
+            | null
+          assigned_team?: string | null
+          category?: Database["public"]["Enums"]["ticket_category"]
+          created_at?: string | null
+          description?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          status?: Database["public"]["Enums"]["ticket_status"]
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "agent" | "user"
+      ticket_category:
+        | "password"
+        | "vpn"
+        | "network"
+        | "software"
+        | "hardware"
+        | "other"
+      ticket_priority: "low" | "medium" | "high" | "critical"
+      ticket_status: "open" | "in_progress" | "resolved" | "closed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +287,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "agent", "user"],
+      ticket_category: [
+        "password",
+        "vpn",
+        "network",
+        "software",
+        "hardware",
+        "other",
+      ],
+      ticket_priority: ["low", "medium", "high", "critical"],
+      ticket_status: ["open", "in_progress", "resolved", "closed"],
+    },
   },
 } as const
