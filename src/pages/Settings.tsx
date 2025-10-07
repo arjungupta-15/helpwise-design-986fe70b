@@ -1,13 +1,36 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail, MessageSquare, Bell, Save } from "lucide-react";
+import { Mail, MessageSquare, Bell, Save, RefreshCw, Database } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { syncIngestion } from "@/lib/api";
 
 export default function Settings() {
   const { toast } = useToast();
+  const [syncing, setSyncing] = useState(false);
+  const [autoSync, setAutoSync] = useState(true);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const result = await syncIngestion();
+      toast({
+        title: "✅ Sync Complete",
+        description: `Successfully synced ${result.newTickets} new tickets from external sources`,
+      });
+    } catch (error) {
+      toast({
+        title: "Sync Failed",
+        description: "Could not sync tickets. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const handleSave = () => {
     toast({
