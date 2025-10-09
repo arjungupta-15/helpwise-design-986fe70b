@@ -1,17 +1,31 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Ticket, Plus, BookOpen, Settings, Headphones } from "lucide-react";
+import { LayoutDashboard, Ticket, Plus, BookOpen, Settings, Headphones, Users, Database, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
-
-const navItems = [
-  { to: "/", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/my-tickets", icon: Ticket, label: "My Tickets" },
-  { to: "/create-ticket", icon: Plus, label: "Create Ticket" },
-  { to: "/knowledge-base", icon: BookOpen, label: "Knowledge Base" },
-  { to: "/settings", icon: Settings, label: "Settings" },
-];
+import { useAuthStore } from "@/store/auth";
 
 export const Sidebar = () => {
+  const user = useAuthStore((s) => s.user);
+  const role = user?.role || "employee";
+
+  const navItems = role === "it"
+    ? [
+        { to: "/it-dashboard", icon: LayoutDashboard, label: "Dashboard" },
+        { to: "/my-tickets", icon: Users, label: "All Tickets" },
+        { to: "/analytics", icon: BarChart3, label: "Analytics" },
+        { to: "/manage", icon: Database, label: "Manage" },
+        { to: "/knowledge-base", icon: BookOpen, label: "Knowledge Base" },
+        { to: "/settings", icon: Settings, label: "Settings" },
+      ]
+    : [
+        { to: "/employee-dashboard", icon: LayoutDashboard, label: "Dashboard" },
+        { to: "/my-tickets", icon: Ticket, label: "My Tickets" },
+        { to: "/create-ticket", icon: Plus, label: "Create Ticket" },
+        { to: "/analytics", icon: BarChart3, label: "Analytics" },
+        { to: "/knowledge-base", icon: BookOpen, label: "Knowledge Base" },
+        { to: "/settings", icon: Settings, label: "Settings" },
+      ];
+
   return (
     <aside className="w-64 h-screen flex-shrink-0 overflow-y-auto bg-sidebar text-sidebar-foreground flex flex-col border-r border-sidebar-border sticky top-0">
       <div className="p-6 flex items-center gap-3 border-b border-sidebar-border">

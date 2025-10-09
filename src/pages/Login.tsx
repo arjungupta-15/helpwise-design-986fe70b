@@ -6,16 +6,28 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import logo from "@/assets/logo.png";
 import heroImage from "@/assets/login-hero.jpg";
+import { useToast } from "@/hooks/use-toast";
+import { useAuthStore } from "@/store/auth";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+  const login = useAuthStore((s) => s.login);
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login
-    navigate("/");
+    login(identifier);
+    // Decide dashboard based on role
+    const user = useAuthStore.getState().user;
+    if (user?.role === "it") {
+      toast({ title: "Welcome, IT Team!", description: "Redirecting to IT Dashboard" });
+      navigate("/it-dashboard");
+    } else {
+      toast({ title: "Welcome, Employee!", description: "Redirecting to Employee Dashboard" });
+      navigate("/employee-dashboard");
+    }
   };
 
   return (
@@ -33,13 +45,13 @@ export default function Login() {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="id">Employee/IT ID or Email</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="john.doe@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="id"
+                type="text"
+                placeholder="EMP-123 or IT-456"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 required
               />
             </div>

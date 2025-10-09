@@ -170,9 +170,14 @@ const mockKBArticles: KBArticle[] = [
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // API Functions
-export const getTickets = async (): Promise<Ticket[]> => {
+export const getTickets = async (params?: { role?: 'employee' | 'it'; userId?: string }): Promise<Ticket[]> => {
   await delay(500);
-  return [...mockTickets];
+  const all = [...mockTickets];
+  if (params?.role === 'employee') {
+    const uid = params.userId || 'user-1';
+    return all.filter(t => t.userId === uid);
+  }
+  return all;
 };
 
 export const getTicketById = async (id: string): Promise<Ticket | null> => {
