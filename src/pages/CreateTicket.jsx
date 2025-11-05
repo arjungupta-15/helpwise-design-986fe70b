@@ -23,7 +23,7 @@ export default function CreateTicket() {
   const [priority, setPriority] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     toast({
       title: "Ticket Created Successfully",

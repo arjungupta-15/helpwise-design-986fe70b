@@ -16,7 +16,7 @@ export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     login(identifier);
     // Decide dashboard based on role

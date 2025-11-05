@@ -6,11 +6,11 @@ import {
   BarChart, Bar, LineChart, Line, AreaChart, Area, PieChart, Pie, Cell,
   ComposedChart, RadialBarChart, RadialBar, ScatterChart, Scatter,
   FunnelChart, Funnel, LabelList, XAxis, YAxis, CartesianGrid, Tooltip,
-  Legend, ResponsiveContainer, ReferenceLine, Brush, TooltipProps
+  Legend, ResponsiveContainer, ReferenceLine, Brush
 } from 'recharts';
 
 // Custom animated tooltip component with dark mode support
-const CustomTooltip = ({ active, payload, label, formatter }: TooltipProps<any, any> & { formatter?: (value: any, name: string) => [string, string] }) => {
+const CustomTooltip = ({ active, payload, label, formatter }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg animate-in fade-in-0 zoom-in-95 duration-200 backdrop-blur-sm">
@@ -30,9 +30,9 @@ const CustomTooltip = ({ active, payload, label, formatter }: TooltipProps<any, 
 };
 
 // Custom animated legend
-const CustomLegend = ({ payload }: any) => (
+const CustomLegend = ({ payload }) => (
   <div className="flex flex-wrap justify-center gap-4 mt-4">
-    {payload?.map((entry: any, index: number) => (
+    {payload?.map((entry, index) => (
       <div key={index} className="flex items-center gap-2 animate-in slide-in-from-bottom-2 duration-300" style={{ animationDelay: `${index * 100}ms` }}>
         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
         <span className="text-sm text-gray-600 dark:text-gray-400">{entry.value}</span>
@@ -45,10 +45,10 @@ const CustomLegend = ({ payload }: any) => (
 const chartAnimationConfig = {
   animationBegin: 0,
   animationDuration: 1500,
-  animationEasing: 'ease-out' as const
+  animationEasing: 'ease-out'
 };
 
-const Analytics: React.FC = () => {
+function Analytics() {
   const [timeRange, setTimeRange] = useState('7d');
   const [animationKey, setAnimationKey] = useState(0);
 
@@ -136,10 +136,10 @@ const Analytics: React.FC = () => {
   const hourlyActivity = generateHourlyActivity();
 
   // Custom formatters for tooltips
-  const formatTicketCount = (value: number) => [`${value} tickets`, 'Tickets'];
-  const formatTime = (value: number) => [`${value}h`, 'Avg Time'];
-  const formatSatisfaction = (value: number) => [`${value.toFixed(1)}/5`, 'Rating'];
-  const formatPercentage = (value: number) => [`${value}%`, 'Efficiency'];
+  const formatTicketCount = (value) => [`${value} tickets`, 'Tickets'];
+  const formatTime = (value) => [`${value}h`, 'Avg Time'];
+  const formatSatisfaction = (value) => [`${Number(value).toFixed(1)}/5`, 'Rating'];
+  const formatPercentage = (value) => [`${value}%`, 'Efficiency'];
 
   return (
     <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 animate-in fade-in-0 duration-500">
@@ -452,6 +452,6 @@ const Analytics: React.FC = () => {
       </Tabs>
     </div>
   );
-};
+}
 
 export default Analytics;

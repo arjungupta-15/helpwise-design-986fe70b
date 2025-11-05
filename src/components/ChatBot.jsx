@@ -5,12 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-interface Message {
-  id: number;
-  text: string;
-  sender: "user" | "bot";
-}
-
 const suggestions = [
   "Reset password",
   "VPN help",
@@ -20,7 +14,7 @@ const suggestions = [
 
 export const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState([
     {
       id: 1,
       text: "Hi! I'm your AI assistant. How can I help you today?",
@@ -32,7 +26,7 @@ export const ChatBot = () => {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const userMessage: Message = {
+    const userMessage = {
       id: messages.length + 1,
       text: input,
       sender: "user",
@@ -43,7 +37,7 @@ export const ChatBot = () => {
 
     // Simulate bot response
     setTimeout(() => {
-      const botMessage: Message = {
+      const botMessage = {
         id: messages.length + 2,
         text: "I understand your query. Let me help you with that. For immediate assistance, please check our Knowledge Base or create a ticket.",
         sender: "bot",
@@ -52,7 +46,7 @@ export const ChatBot = () => {
     }, 1000);
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = (suggestion) => {
     setInput(suggestion);
   };
 

@@ -5,7 +5,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TicketCheck, Clock, CheckCircle, Bot, Database, TrendingUp, AlertTriangle } from "lucide-react";
 import { getTickets } from "@/lib/api";
-import { Ticket } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { 
   ChartContainer, 
@@ -56,7 +55,7 @@ const chartConfig = {
 };
 
 // Generate mock trend data for the last 7 days
-const generateTrendData = (tickets: Ticket[]) => {
+const generateTrendData = (tickets) => {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   return days.map((day, index) => ({
     day,
@@ -68,7 +67,7 @@ const generateTrendData = (tickets: Ticket[]) => {
 };
 
 // Generate category distribution data
-const generateCategoryData = (tickets: Ticket[]) => {
+const generateCategoryData = (tickets) => {
   const categories = ['Network', 'Hardware', 'Software', 'Email', 'VPN', 'Password'];
   return categories.map(category => ({
     name: category,
@@ -78,7 +77,7 @@ const generateCategoryData = (tickets: Ticket[]) => {
 };
 
 // Generate priority distribution data
-const generatePriorityData = (tickets: Ticket[]) => [
+const generatePriorityData = (tickets) => [
   { name: 'High', value: tickets.filter(t => t.priority === 'high').length, fill: '#ef4444' },
   { name: 'Medium', value: tickets.filter(t => t.priority === 'medium').length, fill: '#f59e0b' },
   { name: 'Low', value: tickets.filter(t => t.priority === 'low').length, fill: '#10b981' },
@@ -96,8 +95,8 @@ const generatePerformanceData = () => {
 };
 
 export default function ITDashboard() {
-  const [sourceFilter, setSourceFilter] = useState<string>("all");
-  const { data: ticketsData, isLoading } = useQuery<Ticket[]>({
+  const [sourceFilter, setSourceFilter] = useState("all");
+  const { data: ticketsData, isLoading } = useQuery({
     queryKey: ["tickets", "it"],
     queryFn: () => getTickets({ role: "it" }),
   });
@@ -110,7 +109,7 @@ export default function ITDashboard() {
   const aiRoutedTickets = tickets.filter(t => t.aiRouted).length;
 
   // Advanced analytics
-  const aiClassifiedCount = tickets.filter((t) => (t as any).aiClassified).length;
+  const aiClassifiedCount = tickets.filter((t) => t.aiClassified).length;
   const aiClassifiedRate = useMemo(() => {
     if (!tickets.length) return 0;
     return Math.round((aiClassifiedCount / tickets.length) * 100);
@@ -118,8 +117,8 @@ export default function ITDashboard() {
 
   const slaResolvedCount = tickets.filter((t) => {
     if (t.status !== 'resolved') return false;
-    const created = (t as any).createdAt ? new Date((t as any).createdAt).getTime() : 0;
-    const updated = (t as any).updatedAt ? new Date((t as any).updatedAt).getTime() : created;
+    const created = t.createdAt ? new Date(t.createdAt).getTime() : 0;
+    const updated = t.updatedAt ? new Date(t.updatedAt).getTime() : created;
     if (!created || !updated) return false;
     return (updated - created) <= 24 * 60 * 60 * 1000; // 24h SLA
   }).length;
@@ -140,7 +139,7 @@ export default function ITDashboard() {
     { type: "critical", message: "SLA risk: 3 tickets approaching deadline", icon: AlertTriangle },
   ];
 
-  const getSourceColor = (source: string) => {
+  const getSourceColor = (source) => {
     switch (source) {
       case 'GLPI': return 'bg-red-100 text-red-700 border-red-200';
       case 'Solman': return 'bg-orange-100 text-orange-700 border-orange-200';
@@ -150,7 +149,7 @@ export default function ITDashboard() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'open': return 'bg-green-100 text-green-700';
       case 'in_progress': return 'bg-yellow-100 text-yellow-700';

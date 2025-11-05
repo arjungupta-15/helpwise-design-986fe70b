@@ -68,24 +68,24 @@ const tickets = [
   },
 ];
 
-const getPriorityColor = (priority: string) => {
+const getPriorityColor = (priority) => {
   const colors = {
     Critical: "bg-destructive/10 text-destructive border-destructive/20",
     High: "bg-warning/10 text-warning border-warning/20",
     Medium: "bg-primary/10 text-primary border-primary/20",
     Low: "bg-success/10 text-success border-success/20",
   };
-  return colors[priority as keyof typeof colors] || colors.Low;
+  return colors[priority] || colors.Low;
 };
 
-const getStatusColor = (status: string) => {
+const getStatusColor = (status) => {
   const colors = {
     Open: "bg-primary/10 text-primary border-primary/20",
     "In Progress": "bg-warning/10 text-warning border-warning/20",
     Resolved: "bg-success/10 text-success border-success/20",
     Closed: "bg-muted text-muted-foreground border-border",
   };
-  return colors[status as keyof typeof colors] || colors.Open;
+  return colors[status] || colors.Open;
 };
 
 export default function MyTickets() {

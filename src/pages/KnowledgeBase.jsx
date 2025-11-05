@@ -111,9 +111,7 @@ export default function KnowledgeBase() {
               </div>
               <Badge
                 variant="outline"
-                className={
-                  categoryColors[article.category as keyof typeof categoryColors]
-                }
+                className={categoryColors[article.category]}
               >
                 {article.category}
               </Badge>
